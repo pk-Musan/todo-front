@@ -14,6 +14,7 @@ function getText(){
         for(var i=0; i<response.length; i++)
             tasks[i] = response[i].memo;
         showTask();
+        clearText();
     }).fail(function(){
         alert('Task受信に失敗しました')
     });
@@ -64,6 +65,10 @@ function showTask(){
     }
 
     $("#list").get(0).appendChild(fragment);
+}
+
+function clearText(){
+    $("#new_task").get(0).value = "";
 }
 
 function init(){
