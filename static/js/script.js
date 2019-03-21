@@ -14,7 +14,6 @@ function getText(){
         for(var i=0; i<response.length; i++)
             tasks[i] = response[i].memo;
         showTask();
-        clearText();
     }).fail(function(){
         alert('Task受信に失敗しました')
     });
@@ -46,6 +45,7 @@ function postText(){
         tasks = [];
         for(var i=0; i<response.length; i++)
             tasks[i] = response[i].memo;
+        clearText();
         showTask();
     }).fail(function(){
         alert('Task送信に失敗しました')
