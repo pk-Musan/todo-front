@@ -1,47 +1,53 @@
-var url = "http://";
+var url = "http://127.0.0.1:8000/api/todos";
 var tasks = [];
-
-function postText(){
-    const new_task = $("#new_task").get(0).value;
-    if(new_task == ""){
-        alert("Task入力してや");
-        return;
-    }
-
-    $.ajax({
-        type: "POST",
-        url: url,
-        data: new_task,
-        datatype: JSON,
-        cache: false,
-        contentType: false,
-        processData: false,
-    }).done(function(response){
-        tasks = response.memo;
-        showTask();
-    }).fail(function(){
-        alert("fail");
-    });
-}
 
 function getText(){
     $.ajax({
         type: "GET",
-        url: url/*,
+        url: url,
         datatype: JSON,
         cache: false,
         contentType: false,
-        processData: false,*/
+        processData: false
     }).done(function(response){
-        /*
         tasks = [];
         for(var i=0; i<response.length; i++)
-            tasks[i] = response.memo[i];
-        */
-        tasks = response.memo;
+            tasks[i] = response[i].memo;
         showTask();
     }).fail(function(){
-        alert("fail");
+        alert('Task受信に失敗しました')
+    });
+}
+
+function postText(){
+    const new_task = $("#new_task").get(0).value;
+    if(new_task == ""){
+        alert("入力してください");
+        return;
+    }
+
+    console.log(new_task);
+
+    var data = {
+        memo: new_task,
+        status: 0
+    };
+
+    $.ajax({
+        type: "POST",
+        url: url,
+        data: JSON.stringify(data),
+        datatype: JSON,
+        cache: false,
+        contentType: false,
+        scriptCharset: 'utf-8'
+    }).done(function(response){
+        tasks = [];
+        for(var i=0; i<response.length; i++)
+            tasks[i] = response[i].memo;
+        showTask();
+    }).fail(function(){
+        alert('Task送信に失敗しました')
     });
 }
 
@@ -61,8 +67,7 @@ function showTask(){
 }
 
 function init(){
-    showTask();
+    getText();
 }
 
 init();
-getText();
